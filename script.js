@@ -1,12 +1,14 @@
 var canvas = document.querySelector('#canvas');
 var context = canvas.getContext('2d');
 
+
 function DrawAxes(){
   context.beginPath();
   context.strokeStyle='black';
-  context.moveTo(40,20);
-  context.lineTo(40,450);
-  context.lineTo(900,450);
+  context.moveTo(500,20);
+  context.lineTo(500,450);
+  context.moveTo(20,250)
+  context.lineTo(900,250);
   context.stroke();
 }
 
@@ -29,17 +31,21 @@ function DrawYgrids(){
 }
 
 function PlotScale(){
+  context.save();
+  context.translate(500,250);
   var yPlot=0;
   var xPlot=0;
-  for(i=450; i>=20;i-=20){
-    context.strokeText(yPlot,20,i);
+  for(i=0; i<=500;i+=20){
+    context.strokeText(yPlot,i,0);
     yPlot++;
   }
-  for(i=40;i<=900;i+=20){
-    context.strokeText(xPlot, i, 470);
+  for(i=0;i>-500;i-=20){
+    context.strokeText(xPlot, 0, i);
     xPlot++;
   }
+  context.restore();
 }
+
 var xMath =0, yMath, xOldMath=0;
  var math = mathjs();
  var scope = {x:0};
@@ -48,12 +54,14 @@ var xMath =0, yMath, xOldMath=0;
 function PlotFunction(){
 
 context.save();
-context.translate(40,450);
+context.translate(500,250);
 context.strokeStyle='black';
 context.moveTo(0,0);
-for(xOldMath=0;xOldMath<=860;xOldMath+=1){
+for(xOldMath=-500;xOldMath<=500;xOldMath+=1){
   xMath=xOldMath/20;
+  
   yMath = -20*(evaluateexp(xMath));
+
   context.lineTo(xOldMath,yMath);
 }
 context.stroke();
@@ -89,3 +97,4 @@ newplot.addEventListener('click', ()=>{
   input.value = '';
   location.reload();
 });
+
